@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'crypto-signals',
+    podModulePrefix: 'crypto-signals/pods',
     environment,
     rootURL: '/',
     locationType: 'auto',
