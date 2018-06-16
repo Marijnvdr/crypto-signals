@@ -22,18 +22,19 @@ export default AjaxService.extend({
     return d.toLocaleString();
   },
 
-  get1HourStochasticsInfo(currency) {
-    return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=17&aggregate=1`).then((response) => {
-      debugger;
+  getStochasticsInfo(currency, hours) {
+    return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=17&aggregate=${hours}`).then((response) => {
       let oldest = this.getSlowStochastics(currency, response.Data.slice(0, 16));
       let middle = this.getSlowStochastics(currency, response.Data.slice(1, 17));
       let newest = this.getSlowStochastics(currency, response.Data.slice(2, 18));
-      let oversoldWarning = '';
-      debugger;
-      if (oldest > middle && middle > newest && oldest > 80 && middle > 80 && newest > 75) {
-        oversoldWarning = 'Oversold';
+      let warning = '';
+      if (oldest > middle && middle > newest && oldest > 80 && middle > 80 && newest > 75 && newest < 80) {
+        warning = 'Overbought';
       }
-      return `${oldest}/${middle}/${newest}  ${oversoldWarning}`;
+      if (oldest < middle && middle < newest && oldest < 20 && middle < 20 && newest < 25 && newest > 20) {
+        warning = 'Oversold';
+      }
+      return `${oldest}/${middle}/${newest}  ${warning}`;
     }).catch(() => {
       return "ERR";
     })

@@ -6,13 +6,16 @@ export default Route.extend({
   ajax: service('crypto-api'),
 
   async model() {
-    let currentPrice = await this.get('ajax').getCoinPrice('BTC');
-    let stochasticsInfo1h = await this.get('ajax').get1HourStochasticsInfo('BTC');
+    let coinsInfo = [];
+    let coins = ['BTC', 'LTC', 'NEO'];
+    for (let coin of coins) {
+      let stochasticsInfo1h = await this.get('ajax').getStochasticsInfo(coin, 1);
+      let stochasticsInfo4h = await this.get('ajax').getStochasticsInfo(coin, 4);
+      coinsInfo.push({ name: coin, stoch1h: stochasticsInfo1h, stoch4h: stochasticsInfo4h });
+    }
+
     return hash({
-      price: currentPrice,
-      stoch: stochasticsInfo1h,
-      ts: this.get('ajax').getCurrentTimeStamp(),
-      d: this.get('ajax').getCurrentDateTime(),
+      currencies: coinsInfo
     });
   }
 });

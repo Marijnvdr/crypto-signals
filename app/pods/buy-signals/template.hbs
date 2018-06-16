@@ -1,5 +1,5 @@
-<h2>Current Bitcoin price and stochastics:</h2>
-<h3>{{model.price}} ; {{model.stoch}}</h3>
-<h3>Timestamp: {{model.ts}}</h3>
-<h3>{{model.d}}</h3>
+<h3>Currencies stochastics information</h3>
+{{#each model.currencies as |currency|}}
+  <p>{{currency.name}}: 1h stochastics: {{currency.stoch1h}} ; 4h stochastics: {{currency.stoch4h}}</p>
+{{/each}}
 
