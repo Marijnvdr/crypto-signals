@@ -22,16 +22,29 @@ export default AjaxService.extend({
     return d.toLocaleString();
   },
 
-  getSlowStochastics(currency) {
-    return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=15&aggregate=1`).then((response) => {
-      let f1 = this.getFastStochastics(response.Data[15].open, response.Data.slice(2, 15));
-      let f2 = this.getFastStochastics(response.Data[14].open, response.Data.slice(1, 14));
-      let f3 = this.getFastStochastics(response.Data[13].open, response.Data.slice(0, 13));
-      let slowStochastics = (f1 + f2 + f3) / 3;
-      return slowStochastics.toFixed(0);
+  get1HourStochasticsInfo(currency) {
+    return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=17&aggregate=1`).then((response) => {
+      debugger;
+      let oldest = this.getSlowStochastics(currency, response.Data.slice(0, 16));
+      let middle = this.getSlowStochastics(currency, response.Data.slice(1, 17));
+      let newest = this.getSlowStochastics(currency, response.Data.slice(2, 18));
+      let oversoldWarning = '';
+      debugger;
+      if (oldest > middle && middle > newest && oldest > 80 && middle > 80 && newest > 75) {
+        oversoldWarning = 'Oversold';
+      }
+      return `${oldest}/${middle}/${newest}  ${oversoldWarning}`;
     }).catch(() => {
       return "ERR";
     })
+  },
+
+  getSlowStochastics(currency, data) {
+    let f1 = this.getFastStochastics(data[15].open, data.slice(2, 15));
+    let f2 = this.getFastStochastics(data[14].open, data.slice(1, 14));
+    let f3 = this.getFastStochastics(data[13].open, data.slice(0, 13));
+    let slowStochastics = (f1 + f2 + f3) / 3;
+    return slowStochastics.toFixed(0);
   },
 
   getFastStochastics(currentPrice, data) {

@@ -7,10 +7,10 @@ export default Route.extend({
 
   async model() {
     let currentPrice = await this.get('ajax').getCoinPrice('BTC');
-    let stochasticValue = await this.get('ajax').getSlowStochastics('BTC', currentPrice);
+    let stochasticsInfo1h = await this.get('ajax').get1HourStochasticsInfo('BTC');
     return hash({
       price: currentPrice,
-      stoch: stochasticValue,
+      stoch: stochasticsInfo1h,
       ts: this.get('ajax').getCurrentTimeStamp(),
       d: this.get('ajax').getCurrentDateTime(),
     });
