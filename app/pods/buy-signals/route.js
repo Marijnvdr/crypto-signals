@@ -5,9 +5,14 @@ import { hash } from 'rsvp';
 export default Route.extend({
   ajax: service('crypto-api'),
 
-  model() {
+  async model() {
+    let currentPrice = await this.get('ajax').getCoinPrice('BTC');
+    let stochasticValue = await this.get('ajax').getStochastics('BTC', currentPrice);
     return hash({
-      test: this.get('ajax').getCoinPrice('BTC')
+      price: currentPrice,
+      stoch: stochasticValue,
+      ts: this.get('ajax').getCurrentTimeStamp(),
+      d: this.get('ajax').getCurrentDateTime(),
     });
   }
 });
