@@ -1,5 +1,15 @@
 <h3>Currencies stochastics information</h3>
 {{#each model.currencies as |currency|}}
-  <p>{{currency.name}}: 1h stochastics: {{currency.stoch1h}} ; 4h stochastics: {{currency.stoch4h}}</p>
+  <p>
+  {{currency.name}}: {{currency.stoch1h.warning}}<br>
+  stochastics 1h:<br>
+  {{currency.stoch1h.stochOldest.time}}: {{currency.stoch1h.stochOldest.val}}<br>
+  {{currency.stoch1h.stochMiddle.time}}: {{currency.stoch1h.stochMiddle.val}}<br>
+  {{currency.stoch1h.stochNewest.time}}: {{currency.stoch1h.stochNewest.val}}<br>
+  stochastics 4h:<br>
+  {{currency.stoch4h.stochOldest.time}}: {{currency.stoch4h.stochOldest.val}}<br>
+  {{currency.stoch4h.stochMiddle.time}}: {{currency.stoch4h.stochMiddle.val}}<br>
+  {{currency.stoch4h.stochNewest.time}}: {{currency.stoch4h.stochNewest.val}}<br>
+  </p>
 {{/each}}
 

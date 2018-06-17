@@ -29,12 +29,16 @@ export default AjaxService.extend({
       let newest = this.getSlowStochastics(currency, response.Data.slice(2, 18));
       let warning = '';
       if (oldest > middle && middle > newest && oldest > 80 && middle > 80 && newest > 75 && newest < 80) {
-        warning = 'Overbought';
+        warning = `Overbought in ${hours}h chart`;
       }
       if (oldest < middle && middle < newest && oldest < 20 && middle < 20 && newest < 25 && newest > 20) {
-        warning = 'Oversold';
+        warning = `Oversold in ${hours}h chart`;
       }
-      return `${oldest}/${middle}/${newest}  ${warning}`;
+      return { warning: warning,
+        stochOldest: { val: oldest, time: new Date(response.Data[15].time * 1000).toLocaleString() },
+        stochMiddle: { val: middle, time: new Date(response.Data[16].time * 1000).toLocaleString() },
+        stochNewest: { val: newest, time: new Date(response.Data[17].time * 1000).toLocaleString() }
+      };
     }).catch(() => {
       return "ERR";
     })
