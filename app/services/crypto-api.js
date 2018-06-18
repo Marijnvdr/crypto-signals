@@ -46,9 +46,9 @@ export default AjaxService.extend({
   },
 
   getSlowStochastics(currency, data) {
-    let f1 = this.getFastStochastics(data[15].open, data.slice(2, 15));
-    let f2 = this.getFastStochastics(data[14].open, data.slice(1, 14));
-    let f3 = this.getFastStochastics(data[13].open, data.slice(0, 13));
+    let f1 = this.getFastStochastics(data[15].open, data.slice(2, 16));
+    let f2 = this.getFastStochastics(data[14].open, data.slice(1, 15));
+    let f3 = this.getFastStochastics(data[13].open, data.slice(0, 14));
     let slowStochastics = (f1 + f2 + f3) / 3;
     return slowStochastics.toFixed(0);
   },

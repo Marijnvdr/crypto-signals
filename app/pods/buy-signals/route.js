@@ -7,8 +7,7 @@ export default Route.extend({
 
   async model() {
     let coinsInfo = [];
-    let coins = ['BTC', 'EOS', 'ETH', 'LTC', 'ETC', 'XRP', 'DSH', 'IOT', 'XMR',
-                 'NEO', 'ZEC', 'OMG', 'BTG'];
+    let coins = ['BTC', 'EOS', 'ETH', 'LTC', 'ETC', 'XRP', 'DSH', 'IOT', 'XMR', 'NEO', 'ZEC', 'OMG', 'BTG'];
     for (let coin of coins) {
       let stochasticsInfo1h = await this.get('ajax').getStochasticsInfo(coin, 1);
       let stochasticsInfo4h = await this.get('ajax').getStochasticsInfo(coin, 4);
@@ -16,7 +15,9 @@ export default Route.extend({
     }
 
     return hash({
-      currencies: coinsInfo
+      currenciesSignal4h: coinsInfo.filter((c) => c.stoch4h.warning),
+      currenciesSignal1h: coinsInfo.filter((c) => c.stoch1h.warning),
+      currenciesNeutral: coinsInfo.filter((c) => !c.stoch1h.warning && !c.stoch4h.warning)
     });
   }
 });

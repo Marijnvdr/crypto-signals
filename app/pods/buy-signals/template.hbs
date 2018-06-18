@@ -1,11 +1,44 @@
-<h3>Currencies stochastics information</h3>
-{{#each model.currencies as |currency|}}
-  <p>
-  {{currency.name}}: {{currency.stoch1h.warning}}<br>
-  stochastics 1h:<br>
-  {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
-  stochastics 4h:<br>
-  {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
-  </p>
-{{/each}}
-
+<h3>Stochastics of currencies with signal in 4h chart</h3>
+{{#if model.currenciesSignal4h}}
+  {{#each model.currenciesSignal4h as |currency|}}
+    <p>
+    <b>{{currency.name}}: {{currency.stoch4h.warning}}</b><br>
+    stochastics 1h:<br>
+    {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
+    stochastics 4h:<br>
+    {{currency.stoch4h.stoch.timesInfo}}: <b>{{currency.stoch4h.stoch.valuesInfo}}</b><br>
+    </p>
+  {{/each}}
+{{else}}
+  none
+{{/if}}
+<hr>
+<h3>Stochastics of currencies with signal in 1h chart</h3>
+{{#if model.currenciesSignal1h}}
+  {{#each model.currenciesSignal1h as |currency|}}
+    <p>
+    <b>{{currency.name}}: {{currency.stoch1h.warning}}</b><br>
+    stochastics 1h:<br>
+    {{currency.stoch1h.stoch.timesInfo}}: <b>{{currency.stoch1h.stoch.valuesInfo}}</b><br>
+    stochastics 4h:<br>
+    {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
+    </p>
+  {{/each}}
+{{else}}
+  none
+{{/if}}
+<hr>
+<h3>Stochastics of currencies without signal</h3>
+{{#if model.currenciesNeutral}}
+  {{#each model.currenciesNeutral as |currency|}}
+    <p>
+    {{currency.name}}:<br>
+    stochastics 1h:<br>
+    {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
+    stochastics 4h:<br>
+    {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
+    </p>
+  {{/each}}
+{{else}}
+  none
+{{/if}}
