@@ -34,11 +34,12 @@ export default AjaxService.extend({
       if (oldest < middle && middle < newest && oldest < 20 && middle < 20 && newest < 25 && newest > 20) {
         warning = `Oversold in ${hours}h chart`;
       }
-      return { warning: warning,
-        stochOldest: { val: oldest, time: new Date(response.Data[15].time * 1000).toLocaleString() },
-        stochMiddle: { val: middle, time: new Date(response.Data[16].time * 1000).toLocaleString() },
-        stochNewest: { val: newest, time: new Date(response.Data[17].time * 1000).toLocaleString() }
-      };
+      let timeOldest = new Date(response.Data[15].time * 1000).getHours();
+      let timeMiddle = new Date(response.Data[16].time * 1000).getHours();
+      let timeNewest = new Date(response.Data[17].time * 1000).getHours();
+      let times = `(${timeOldest}h/${timeMiddle}h/${timeNewest}h)`;
+      let values = `${oldest}/${middle}/${newest}`;
+      return { warning: warning, stoch: { valuesInfo: values, timesInfo: times } };
     }).catch(() => {
       return "ERR";
     })
