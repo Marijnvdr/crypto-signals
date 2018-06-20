@@ -1,7 +1,25 @@
-<h3>21 MA in 4h cart</h3>
+<h3>Current price upwards cross 21 MA in 4h cart (BUY signal)</h3>
 
-{{#each model.currenciesSignal4h as |currency|}}
-  <p>
-  {{currency.name}}: {{currency.ma}}
-  </p>
-{{/each}}
+{{#if model.currenciesBuySignal4h}}
+  {{#each model.currenciesBuySignal4h as |currency|}}
+    <p class="buy-signal">
+    {{currency.name}}
+    </p>
+  {{/each}}
+{{else}}
+  none
+{{/if}}
+
+<hr>
+
+<h3>Current price downwards cross 21 MA in 4h cart (SELL signal)</h3>
+
+{{#if model.currenciesBuySignal4h}}
+  {{#each model.currenciesSellSignal4h as |currency|}}
+    <p class="sell-signal">
+    {{currency.name}}
+    </p>
+  {{/each}}
+{{else}}
+  none
+{{/if}}

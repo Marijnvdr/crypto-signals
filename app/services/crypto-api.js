@@ -12,6 +12,14 @@ export default AjaxService.extend({
     })
   },
 
+  getPriceYesterday(coin) {
+    return this.request(`/data/histohour?fsym=${coin}&tsym=USD&limit=6&aggregate=4`).then((response) => {
+      return response.Data[0].open;
+    }).catch(() => {
+      return "ERR";
+    })
+  },
+
   getCurrentTimeStamp() {
     return parseInt((new Date().getTime() / 1000).toFixed(0));
   },
