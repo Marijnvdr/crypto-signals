@@ -7,7 +7,9 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('buy-signals', { path: '/' });
+  this.route('main', { path: '/' });
+  this.route('stoch-signals', { path: '/stochastics' });
+  this.route('ma-signals', { path: '/movingaverage' });
 });
 
 export default Router;
