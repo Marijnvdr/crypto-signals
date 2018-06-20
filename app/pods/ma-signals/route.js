@@ -12,12 +12,15 @@ export default Route.extend({
       let maInfo4h = await this.get('ajax').getMovingAverage(coin, 4, 21);
       let priceYesterday = await this.get('ajax').getPriceYesterday(coin);
       let priceCurrent = await this.get('ajax').getCoinPrice(coin);
-      coinsInfo.push({ name: coin, ma: maInfo4h, priceCurrent: priceCurrent, yes: priceYesterday });
+      let prc = (((priceCurrent - maInfo4h) / maInfo4h) * 100).toFixed(1);
+      coinsInfo.push({ name: coin, ma: maInfo4h, priceCurrent: priceCurrent, priceYesterday: priceYesterday, prc: prc });
     }
 
     return hash({
       currenciesBuySignal4h: coinsInfo.filter((c) => c.priceCurrent > c.ma && c.priceYesterday < c.ma),
-      currenciesSellSignal4h: coinsInfo.filter((c) => c.priceCurrent < c.ma && c.priceYesterday > c.ma)
+      currenciesSellSignal4h: coinsInfo.filter((c) => c.priceCurrent < c.ma && c.priceYesterday > c.ma),
+      currenciesAbove21MA: coinsInfo.filter((c) => c.priceCurrent > c.ma && c.priceYesterday > c.ma),
+      currenciesBelow21MA: coinsInfo.filter((c) => c.priceCurrent < c.ma && c.priceYesterday < c.ma)
     });
   }
 });
