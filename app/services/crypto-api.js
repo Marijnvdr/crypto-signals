@@ -22,6 +22,24 @@ export default AjaxService.extend({
     return d.toLocaleString();
   },
 
+  getMovingAverage(currency, hours, candleCount) {
+    return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=${candleCount - 1}&aggregate=${hours}`).then((response) => {
+      let total = 0;
+      let count = 0;
+      for (let candle of response.Data) {
+        total += candle.open;
+        count++;
+      }
+      if (count > 0) {
+        return (total / count).toFixed(4);
+      } else {
+        return "no data";
+      }
+    }).catch(() => {
+      return "ERR";
+    })
+  },
+
   getStochasticsInfo(currency, hours) {
     return this.request(`/data/histohour?fsym=${currency}&tsym=USD&limit=17&aggregate=${hours}`).then((response) => {
       let oldest = this.getSlowStochastics(currency, response.Data.slice(0, 16));

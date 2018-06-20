@@ -1,1 +1,7 @@
-<h3>Some ma stats</h3>
+<h3>21 MA in 4h cart</h3>
+
+{{#each model.currenciesSignal4h as |currency|}}
+  <p>
+  {{currency.name}}: {{currency.ma}}
+  </p>
+{{/each}}
