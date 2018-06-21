@@ -18,6 +18,9 @@
   {{#each model.currenciesSellSignal4h as |currency|}}
     <p class="sell-signal">
     {{currency.name}}
+    {{#if currency.isShortable}}
+      (s)
+    {{/if}}
     </p>
   {{/each}}
 {{else}}
@@ -46,6 +49,9 @@
   {{#each model.currenciesBelow21MA as |currency|}}
     <p class="neutral-negative">
     {{currency.name}} {{currency.prc}}%
+    {{#if currency.isShortable}}
+      (s)
+    {{/if}}
     </p>
   {{/each}}
 {{else}}
