@@ -8,8 +8,9 @@ export default Route.extend({
   async model() {
     let coinsInfo = [];
     let coinsBitfinexShortable = ['BTC', 'EOS', 'ETH', 'LTC', 'ETC', 'XRP', 'DASH', 'IOT', 'XMR', 'NEO', 'ZEC', 'OMG', 'BTG'];
-    let coins = ['ADA', 'AION', 'ARK', 'BNB', 'BTC', 'BTG', 'CLOAK', 'DASH', 'EOS', 'ETC', 'ETH', 'GAS', 'HT', 'ICX', 'IOT', 'KCS',
-                 'LSK', 'LTC', 'NANO', 'NEO', 'OMG', 'QTUM', 'TRX', 'VEN', 'XLM', 'XMR', 'XRP', 'ZEC', 'ZIL'];
+
+    let coins = ['ADA', 'AION', 'ARK', 'BNB', 'BTC', 'BTCP', 'BTG', 'CLOAK', 'DASH', 'EOS', 'ETC', 'ETH', 'GAS', 'HT', 'ICX', 'IOT', 'KCS',
+                 'LSK', 'LTC', 'NANO', 'NEO', 'OMG', 'QTUM', 'STRAT', 'TRX', 'VEN', 'XLM', 'XMR', 'XRP', 'ZEC', 'ZIL'];
     for (let coin of coins) {
       let maInfo4h = await this.get('ajax').getMovingAverage(coin, 4, 21);
       let priceYesterday = await this.get('ajax').getPriceYesterday(coin);

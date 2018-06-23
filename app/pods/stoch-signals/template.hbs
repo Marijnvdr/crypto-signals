@@ -2,11 +2,16 @@
 {{#if model.currenciesSignal4h}}
   {{#each model.currenciesSignal4h as |currency|}}
     <p>
-    <b>{{currency.name}}: {{currency.stoch4h.warning}}</b><br>
+    <span class="bold-text">{{currency.name}}:
+      {{#if currency.isShortable}}
+        (s)
+      {{/if}}
+      {{currency.stoch4h.warning}}
+    </span><br>
     stochastics 1h:<br>
     {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
     stochastics 4h:<br>
-    {{currency.stoch4h.stoch.timesInfo}}: <b>{{currency.stoch4h.stoch.valuesInfo}}</b><br>
+    {{currency.stoch4h.stoch.timesInfo}}: <span class="bold-text">{{currency.stoch4h.stoch.valuesInfo}}</span><br>
     </p>
   {{/each}}
 {{else}}
@@ -17,9 +22,14 @@
 {{#if model.currenciesSignal1h}}
   {{#each model.currenciesSignal1h as |currency|}}
     <p>
-    <b>{{currency.name}}: {{currency.stoch1h.warning}}</b><br>
+    <span class="bold-text">{{currency.name}}:
+      {{#if currency.isShortable}}
+        (s)
+      {{/if}}
+      {{currency.stoch1h.warning}}
+    </span><br>
     stochastics 1h:<br>
-    {{currency.stoch1h.stoch.timesInfo}}: <b>{{currency.stoch1h.stoch.valuesInfo}}</b><br>
+    {{currency.stoch1h.stoch.timesInfo}}: <span class="bold-text">{{currency.stoch1h.stoch.valuesInfo}}</span><br>
     stochastics 4h:<br>
     {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
     </p>
@@ -32,7 +42,11 @@
 {{#if model.currenciesNeutral}}
   {{#each model.currenciesNeutral as |currency|}}
     <p>
-    {{currency.name}}:<br>
+    {{currency.name}}:
+    {{#if currency.isShortable}}
+      (s)
+    {{/if}}
+    <br>
     stochastics 1h:<br>
     {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
     stochastics 4h:<br>
