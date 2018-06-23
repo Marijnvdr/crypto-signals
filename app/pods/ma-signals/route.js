@@ -5,12 +5,27 @@ import { hash } from 'rsvp';
 export default Route.extend({
   ajax: service('crypto-api'),
 
-  async model() {
+  queryParams: {
+    coin: {
+      refreshModel: true
+    }
+  },
+
+  async model(queryParams) {
+    console.log('in model: ' + queryParams.coin);
     let coinsInfo = [];
     let coinsBitfinexShortable = ['BTC', 'EOS', 'ETH', 'LTC', 'ETC', 'XRP', 'DASH', 'IOT', 'XMR', 'NEO', 'ZEC', 'OMG', 'BTG'];
 
-    let coins = ['ADA', 'AION', 'ARK', 'BNB', 'BTC', 'BTCP', 'BTG', 'CLOAK', 'DASH', 'EOS', 'ETC', 'ETH', 'GAS', 'HT', 'ICX', 'IOT', 'KCS',
-                 'LSK', 'LTC', 'NANO', 'NEO', 'OMG', 'QTUM', 'STRAT', 'TRX', 'VEN', 'XLM', 'XMR', 'XRP', 'ZEC', 'ZIL'];
+    let coinsList = ['ADA', 'AION', 'ARK', 'BNB', 'BTC', 'BTCP', 'BTG', 'CLOAK', 'DASH', 'EOS', 'ETC', 'ETH', 'GAS', 'HT', 'ICX', 'IOT', 'KCS',
+                     'LSK', 'LTC', 'NANO', 'NEO', 'OMG', 'QTUM', 'STRAT', 'TRX', 'VEN', 'XLM', 'XMR', 'XRP', 'ZEC', 'ZIL'];
+
+    let coins = [];
+    if (queryParams.coin) {
+      coins.push(queryParams.coin.toUpperCase());
+    } else {
+      coins = coinsList;
+    }
+
     for (let coin of coins) {
       let maInfo4h = await this.get('ajax').getMovingAverage(coin, 4, 21);
       let priceYesterday = await this.get('ajax').getPriceYesterday(coin);

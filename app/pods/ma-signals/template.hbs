@@ -1,3 +1,16 @@
+{{paper-input
+  label="coin"
+  value=selectedCoin
+  class="input-coin"
+  onChange=(action (mut selectedCoin))
+}}
+
+{{#paper-button
+  raised=true
+  onClick=(action "getSelectedCoin")}}
+  Search 21 MA signals
+{{/paper-button}}
+
 <h3>Cross up 21 MA in 4h chart (BUY signal)</h3>
 
 {{#if model.currenciesBuySignal4h}}
