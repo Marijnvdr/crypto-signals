@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('main', { path: '/' });
   this.route('stoch-signals', { path: '/stochastics' });
   this.route('ma-signals', { path: '/movingaverage' });
+  this.route('stoch-test', { path: '/stochtest' });
 });
 
 export default Router;

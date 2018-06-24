@@ -1,0 +1,50 @@
+<h3>Some test</h3>
+
+{{#paper-select
+  options=model.coinsList
+  selected=selectedCoin
+  onChange=(action (mut selectedCoin))
+  as |h|}}
+  {{h}}
+{{/paper-select}}
+
+{{#stoch-component coin=selectedCoin as |loader|}}
+  {{#if loader.isRunning}}
+    <p>Loading...</p>
+  {{else}}
+    <h3>Stochastics signal in 4h chart</h3>
+    {{#if loader.data.currenciesSignal}}
+      {{#each loader.data.currenciesSignal as |currency|}}
+        <p>
+        <span class="bold-text">{{currency.name}}:
+          {{#if currency.isShortable}}
+            (s)
+          {{/if}}
+          {{currency.stoch.warning}}
+        </span><br>
+        stochastics:<br>
+        {{currency.stoch.stoch.timesInfo}}: {{currency.stoch.stoch.valuesInfo}}<br>
+        </p>
+      {{/each}}
+    {{else}}
+      none
+    {{/if}}
+    <hr>
+    <h3>Stochastics without signal</h3>
+    {{#if loader.data.currenciesNeutral}}
+      {{#each loader.data.currenciesNeutral as |currency|}}
+        <p>
+        {{currency.name}}:
+        {{#if currency.isShortable}}
+          (s)
+        {{/if}}
+        <br>
+        stochastics:<br>
+        {{currency.stoch.stoch.timesInfo}}: {{currency.stoch.stoch.valuesInfo}}<br>
+        </p>
+      {{/each}}
+    {{else}}
+      none
+    {{/if}}
+  {{/if}}
+{{/stoch-component}}

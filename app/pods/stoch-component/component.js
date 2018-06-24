@@ -1,14 +1,25 @@
-import Route from '@ember/routing/route';
+import Component from '@ember/component';
+import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import { hash } from 'rsvp';
 
-export default Route.extend({
+export default Component.extend({
   ajax: service('crypto-api'),
+  tagName: '',
 
-  async model() {
-    let controller = this.controllerFor('stoch-signals');
-    let hours = Number(controller.selectedHours.charAt(0));
+  init() {
+    this._super(...arguments);
+    this.data = '';
+  },
 
+  didReceiveAttrs() {
+    if (!this.hours) {
+      this.set('hours', 4);
+    }
+
+    this.get('fetchData').perform(this.hours);
+  },
+
+  fetchData: task(function*(hours) {
     let coinsInfo = [];
     let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'IOT', 'LTC', 'NEO', 'OMG', 'XMR', 'XRP', 'ZEC'];
 
@@ -16,21 +27,14 @@ export default Route.extend({
     'LSK', 'LTC', 'NANO', 'NEO', 'OMG', 'QTUM', 'TRX', 'VEN', 'XLM', 'XMR', 'XRP', 'ZEC', 'ZIL'];
 
     for (let coin of coins) {
-      let stochasticsInfo = await this.get('ajax').getStochasticsInfo(coin, hours);
+      let stochasticsInfo = yield this.get('ajax').getStochasticsInfo(coin, hours);
       let isShortable = coinsBitfinexShortable.indexOf(coin) > -1;
       coinsInfo.push({ name: coin, stoch: stochasticsInfo, isShortable: isShortable });
     }
 
-    return hash({
-      currenciesSignal4h: coinsInfo.filter((c) => c.stoch.warning),
-      currenciesNeutral: coinsInfo.filter((c) => !c.stoch.warning),
-      hoursList: ['1h', '4h']
+    return this.set('data', {
+      currenciesSignal: coinsInfo.filter((c) => c.stoch.warning),
+      currenciesNeutral: coinsInfo.filter((c) => !c.stoch.warning)
     });
-  },
-
-  actions: {
-    some(val) {
-      console.log(val);
-    }
-  }
+  }).restartable()
 });

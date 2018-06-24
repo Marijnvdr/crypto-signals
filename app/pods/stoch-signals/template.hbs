@@ -1,37 +1,23 @@
-<h3>Stochastics signal in 4h chart</h3>
-{{#if model.currenciesSignal4h}}
-  {{#each model.currenciesSignal4h as |currency|}}
+  {{#paper-select
+    options=model.hoursList
+    selected=selectedHours
+    onChange=(action "some")
+    as |h|}}
+    {{h}}
+  {{/paper-select}}
+
+<h3>Stochastics signal in {{selectedHours}} chart</h3>
+{{#if model.currenciesSignal}}
+  {{#each model.currenciesSignal as |currency|}}
     <p>
     <span class="bold-text">{{currency.name}}:
       {{#if currency.isShortable}}
         (s)
       {{/if}}
-      {{currency.stoch4h.warning}}
+      {{currency.stoch.warning}}
     </span><br>
-    stochastics 1h:<br>
-    {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
-    stochastics 4h:<br>
-    {{currency.stoch4h.stoch.timesInfo}}: <span class="bold-text">{{currency.stoch4h.stoch.valuesInfo}}</span><br>
-    </p>
-  {{/each}}
-{{else}}
-  none
-{{/if}}
-<hr>
-<h3>Stochastics signal in 1h chart</h3>
-{{#if model.currenciesSignal1h}}
-  {{#each model.currenciesSignal1h as |currency|}}
-    <p>
-    <span class="bold-text">{{currency.name}}:
-      {{#if currency.isShortable}}
-        (s)
-      {{/if}}
-      {{currency.stoch1h.warning}}
-    </span><br>
-    stochastics 1h:<br>
-    {{currency.stoch1h.stoch.timesInfo}}: <span class="bold-text">{{currency.stoch1h.stoch.valuesInfo}}</span><br>
-    stochastics 4h:<br>
-    {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
+    stochastics:<br>
+    {{currency.stoch.stoch.timesInfo}}: {{currency.stoch.stoch.valuesInfo}}<br>
     </p>
   {{/each}}
 {{else}}
@@ -47,10 +33,8 @@
       (s)
     {{/if}}
     <br>
-    stochastics 1h:<br>
-    {{currency.stoch1h.stoch.timesInfo}}: {{currency.stoch1h.stoch.valuesInfo}}<br>
-    stochastics 4h:<br>
-    {{currency.stoch4h.stoch.timesInfo}}: {{currency.stoch4h.stoch.valuesInfo}}<br>
+    stochastics:<br>
+    {{currency.stoch.stoch.timesInfo}}: {{currency.stoch.stoch.valuesInfo}}<br>
     </p>
   {{/each}}
 {{else}}
